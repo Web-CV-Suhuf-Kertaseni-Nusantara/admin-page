@@ -6,9 +6,7 @@ import ProductsContent from "./component/product";
 export default function App() {
   const user = { name: 'Resky Adhyaksa', position: 'Manager' }
   const [content, setContent] = useState('Dashboard');
-  const handleItemClick = (item) => {
-    setContent(item);
-  }
+  const handleItemClick = (item) => setContent(item);
 
   return (
     <>
@@ -28,7 +26,6 @@ export default function App() {
           </main>
         </div>
       </div>
-    
     </>
   );
 }
