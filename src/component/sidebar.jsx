@@ -19,7 +19,6 @@ export default function SideBar({ onItemClick }) {
 
     const [ showSidebar, setShowSidebar] = useState(true);
     const [ DashboardActive, setDashboardActive ] = useState(true);
-    const [ ProductActive, setProductActive ] = useState(false);
 
     const handleItemClick = (item) => {
         onItemClick(item)
@@ -33,7 +32,7 @@ export default function SideBar({ onItemClick }) {
     }
     
     useEffect(() => {
-        const handleResize = () => window.innerWidth < 768 ? setShowSidebar(false) : setShowSidebar(true)
+        const handleResize = () => window.innerWidth < 720 ? setShowSidebar(false) : setShowSidebar(true)
         window.addEventListener('resize', handleResize)
 
         handleResize();
@@ -44,23 +43,23 @@ export default function SideBar({ onItemClick }) {
         <div className={`flex flex-col ${showSidebar ? 'block' : 'hidden'} min-h-screen w-[250px] shadow-xl bg-gradient-to-b from-green-600 from-70% to-green-300 drop-shadow-sideshadow`}>
             <div className="flex flex-col items-center mt-7 text-center">
                 <img src="src/assets/profile-pict.png" className="rounded-lg shadow-lg h-20 items-center w-20"></img>
-                <Typography variant="h6" color="white" className="font-lato">
+                <Typography variant="h6" color="white" className="font-sans">
                     {user.name}
                 </Typography>
-                <div className="text-sm text-white font-lato">{user.position}</div>
+                <div className="text-sm text-white font-sans">{user.position}</div>
             </div>
             <List className="text-white mt-5">
                 <ListItem onClick={() => { handleItemClick('Dashboard') }} className={`hover:bg-black focus:bg-white focus:bg-opacity-50 ${DashboardActive ? 'bg-white bg-opacity-50' : 'bg-transparent'}`}>
                     <ListItemPrefix>
                     <PresentationChartBarIcon className="h-5 w-5 fill-white" />
                     </ListItemPrefix>
-                    <div className="text-white font-lato">Dashboard</div>
+                    <div className="text-white font-sans">Dashboard</div>
                 </ListItem>
                 <ListItem onClick={() => { handleItemClick('Products') }} className={`hover:bg-black focus:bg-white focus:bg-opacity-50 ${DashboardActive ? 'bg-transparent' : 'bg-white bg-opacity-50'}`}>
                     <ListItemPrefix>
                     <CubeIcon className="h-5 w-5 fill-white" />
                     </ListItemPrefix>
-                    <div className="text-white font-lato">Products</div>
+                    <div className="text-white font-sans">Products</div>
                 </ListItem>
             </List>
             <div className="grow"></div>
