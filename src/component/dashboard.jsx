@@ -8,6 +8,7 @@ export default function DashboardContent() {
         stock_available: 24500,
         total_link_visited: 342560,
     }
+
     return(
         <>
             <div className="flex flex-col ml-16 mr-16">
@@ -22,7 +23,7 @@ export default function DashboardContent() {
                                 <div className="flex flex-col">
                                     <div className="flex flex-row">
                                         <div className="p-1 h-[26px] bg-white rounded-lg md:mr-6"><BsFillPersonFill className="h-4 w-4 fill-black"/></div>
-                                        <Typography className="font-lato font-bold text-black md:text-md text-sm">Total Visitor</Typography>
+                                        <Typography className="font-lato font-bold text-black md:text-base text-sm">Total Visitor</Typography>
                                     </div>
                                     <div className="flex flex-row items-center mt-3">
                                         <Typography color="black" className="font-lato font-bold mr-auto">{dashboard_data.total_visitor}</Typography>
@@ -30,32 +31,40 @@ export default function DashboardContent() {
                                     </div>
                                 </div>
                             </Card>
-                            <Card id="card1" className="h-[100px] w-[200px] md:mr-12 bg-[#B9E303] p-4 mb-5 self-center md:self-start mr-5">
+                            <Card id="card2" className="h-[100px] w-[200px] md:mr-12 bg-[#B9E303] p-4 mb-5 self-center md:self-start mr-5">
                                 <div className="flex flex-col">
                                     <div className="flex flex-row">
-                                        <div className="p-1 h-[26px] bg-white rounded-lg mr-4"><BsFillPersonFill className="h-4 w-4 fill-black"/></div>
-                                        <Typography className="font-lato font-bold text-black">Stock Available</Typography>
+                                        <div className="p-1 h-[26px] bg-white rounded-lg md:mr-6"><BsFillPersonFill className="h-4 w-4 fill-black"/></div>
+                                        <Typography className="font-lato font-bold text-black md:text-base text-sm">Stock Available</Typography>
                                     </div>
-                                    <div className="flex flex-row items-center mt-4">
-                                        <div className="font-lato text-black font-bold mr-auto">{dashboard_data.stock_available}</div>
+                                    <div className="flex flex-row items-center mt-3">
+                                        <Typography color="black" className="font-lato font-bold mr-auto">{dashboard_data.stock_available}</Typography>
                                         <BsArrowUpRightSquareFill color="#1FEB4C" className="bg-white rounded-md w-5 h-5 outline-double"/>
                                     </div>
                                 </div>
                             </Card>
-                            <Card id="card1" className="h-[100px] w-[200px] bg-[#B5D5E1] p-4 mb-5 self-center md:self-start mr-5">
+                            <Card id="card3" className="h-[100px] w-[200px] bg-[#B5D5E1] p-4 mb-5 self-center md:self-start mr-5">
                                 <div className="flex flex-col">
                                     <div className="flex flex-row">
-                                        <div className="p-1 bg-white rounded-lg mr-3"><BsFillPersonFill className="h-4 w-4 fill-black"/></div>
-                                        <Typography className="text-black font-lato font-bold">Total Link Visited</Typography>
+                                        <div className="p-1 h-[26px] bg-white rounded-lg md:mr-3"><BsFillPersonFill className="h-4 w-4 fill-black"/></div>
+                                        <Typography className="font-lato font-bold text-black md:text-base text-sm">Total Link Visited</Typography>
                                     </div>
-                                    <div className="flex flex-row items-center mt-4">
-                                        <div className="text-black font-lato font-bold mr-auto">{dashboard_data.total_link_visited}</div>
-                                        <BsArrowDownRightSquareFill color="#EB1F39" className="bg-white rounded-md w-5 h-5 outline-double"/>
+                                    <div className="flex flex-row items-center mt-3">
+                                        <Typography color="black" className="font-lato font-bold mr-auto">{dashboard_data.total_link_visited}</Typography>
+                                        <BsArrowUpRightSquareFill color="#1FEB4C" className="bg-white rounded-md w-5 h-5 outline-double"/>
                                     </div>
                                 </div>
                             </Card>
+                            
                         </div>
-                        <Card id="rcolumn2" color="cyan" className="mb-[26px] mt-[26px]">Column2</Card>
+                        <Card id="rcolumn2" color="cyan" className="mb-[26px] mt-[26px]">
+                            <div className="flex md:flex-row flex-col">
+                                <div>Website Analytics</div>
+                                <div >Legend 1</div>
+                                <div>Legend 2</div>
+                            </div>
+                            <div></div>
+                        </Card>
                         <Card id="rcolumn3" color="cyan">Column3</Card>
                     </div>
 
