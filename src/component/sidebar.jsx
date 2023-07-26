@@ -44,7 +44,7 @@ export default function SideBar({ onItemClick }) {
         <div className={`flex flex-col ${showSidebar ? 'block' : 'hidden'} min-h-screen w-[250px] shadow-xl bg-gradient-to-b from-green-600 from-70% to-green-300 drop-shadow-sideshadow`}>
             <div className="flex flex-col items-center mt-7 text-center">
                 <img src="src/assets/profile-pict.png" className="rounded-lg shadow-lg h-20 items-center w-20"></img>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="white" className="font-lato">
                     {user.name}
                 </Typography>
                 <div className="text-sm text-white font-lato">{user.position}</div>
@@ -60,7 +60,7 @@ export default function SideBar({ onItemClick }) {
                     <ListItemPrefix>
                     <CubeIcon className="h-5 w-5 fill-white" />
                     </ListItemPrefix>
-                    <div className="text-white">Products</div>
+                    <div className="text-white font-lato">Products</div>
                 </ListItem>
             </List>
             <div className="grow"></div>
