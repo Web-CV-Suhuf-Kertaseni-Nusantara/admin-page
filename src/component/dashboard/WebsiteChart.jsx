@@ -76,7 +76,7 @@ export default function WebsiteChart() {
     }, []);
     
     return (
-        <ResponsiveContainer height={230} className={`${showChart ? 'block' : 'hidden'}`}>
+        <ResponsiveContainer height={200} className={`${showChart ? 'block' : 'hidden'}`}>
             <LineChart data={database} margin={{ right: 30, top: 20, bottom: 10}}>
                 <CartesianGrid strokeDasharray='3 3'/>
                 <XAxis dataKey={"name"} interval={'preserveStartEnd'} className="font-semibold font-sans"/>

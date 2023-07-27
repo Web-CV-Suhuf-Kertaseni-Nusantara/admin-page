@@ -6,45 +6,74 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Tooltip, Button, IconButton } from '@material-tailwind/react';
+import { BsTrash } from 'react-icons/bs';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+const head_table = ["Product Name", "Price", "Stock", "External Link", "Action"]
+
+const body_table = [
+  {
+    name: 'Verdant Bloom Box',
+    price: 55000,
+    stock: 192,
+    external_link : 'http://shopee.com',
+    photo: 'src/assets/product1.png'
+  },
+  {
+    name: 'Greenery Gift Box',
+    price: 48000,
+    stock: 213,
+    external_link : 'http://shopee.com',
+    photo: 'src/assets/product2.png'
+  },
+  {
+    name: 'Sage Ribboned Box',
+    price: 76000,
+    stock: 88,
+    external_link : 'http://shopee.com',
+    photo: 'src/assets/product3.png'
+  },
 ];
 
-export default function BasicTable() {
+export default function MostViewedTable() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
+        {/* <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            {head_table.map((head) => (
+                <TableCell key={head} padding='normal'>
+                  {head}
+                </TableCell>
+              
+              ))}
           </TableRow>
-        </TableHead>
+        </TableHead> */}
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
+          {body_table.map(({ name, price, stock, external_link, photo }, index) => (
+            <TableRow key={index}>
+              <TableCell>
+                <div className='flex flex-row items-center'>
+                  <img src={photo} className='w-12 mr-2'/>
+                  {name}
+                </div>
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell>{price}</TableCell>
+              <TableCell>{stock}</TableCell>
+              <TableCell>{external_link}</TableCell>
+              <TableCell>
+                <Tooltip content="Edit Product">
+                  <Button className='pl-2 pr-2 pt-1 pb-1' color='green'>Edit</Button>
+                </Tooltip>
+                <Tooltip content="Delete Product">
+                  <IconButton className='h-6 w-6 ml-1 bg-red-500'><BsTrash/></IconButton>
+                </Tooltip>
+              </TableCell>
+
             </TableRow>
           ))}
         </TableBody>
