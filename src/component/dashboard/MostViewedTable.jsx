@@ -20,7 +20,7 @@ const body_table = [
     name: 'Verdant Bloom Box',
     price: 55000,
     stock: 192,
-    external_link : 'http://shopee.com',
+    external_link : 'http://tokopedia.com',
     photo: 'src/assets/product1.png'
   },
   {
@@ -31,19 +31,19 @@ const body_table = [
     photo: 'src/assets/product2.png'
   },
   {
-    name: 'Sage Ribboned Box',
-    price: 76000,
-    stock: 88,
+    name: 'Greenery Gift Box',
+    price: 48000,
+    stock: 213,
     external_link : 'http://shopee.com',
-    photo: 'src/assets/product3.png'
+    photo: 'src/assets/product2.png'
   },
 ];
 
 export default function MostViewedTable() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        {/* <TableHead>
+      <Table sx={{ minWidth: 725 }} aria-label="simple table">
+        <TableHead>
           <TableRow>
             {head_table.map((head) => (
                 <TableCell key={head} padding='normal'>
@@ -52,7 +52,7 @@ export default function MostViewedTable() {
               
               ))}
           </TableRow>
-        </TableHead> */}
+        </TableHead>
         <TableBody>
           {body_table.map(({ name, price, stock, external_link, photo }, index) => (
             <TableRow key={index}>
@@ -66,14 +66,13 @@ export default function MostViewedTable() {
               <TableCell>{stock}</TableCell>
               <TableCell>{external_link}</TableCell>
               <TableCell>
-                <Tooltip content="Edit Product">
+                <Tooltip content="Edit Product" className="bg-green-600 text-white drop-shadow-DashboardShadow">
                   <Button className='pl-2 pr-2 pt-1 pb-1' color='green'>Edit</Button>
                 </Tooltip>
-                <Tooltip content="Delete Product">
+                <Tooltip content="Delete Product" className="bg-red-600 text-white drop-shadow-DashboardShadow">
                   <IconButton className='h-6 w-6 ml-1 bg-red-500'><BsTrash/></IconButton>
                 </Tooltip>
               </TableCell>
-
             </TableRow>
           ))}
         </TableBody>

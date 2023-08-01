@@ -40,7 +40,7 @@ export default function SideBar({ onItemClick }) {
     }, []);
 
     return (
-        <div className={`flex flex-col ${showSidebar ? 'block' : 'hidden'} min-h-screen w-[250px] shadow-xl bg-gradient-to-b from-green-600 from-70% to-green-300 drop-shadow-sideshadow`}>
+        <div className={`flex flex-col ${showSidebar ? 'block' : 'hidden'} h-[100vh] w-[250px] shadow-xl bg-gradient-to-b from-green-500 from-70% to-green-300 drop-shadow-sideshadow`}>
             <div className="flex flex-col items-center mt-7 text-center">
                 <img src="src/assets/profile-pict.png" className="rounded-lg shadow-lg h-20 items-center w-20"></img>
                 <Typography variant="h6" color="white" className="font-sans">
@@ -63,7 +63,7 @@ export default function SideBar({ onItemClick }) {
                 </ListItem>
             </List>
             <div className="grow"></div>
-            <div className="mb-7 self-center">
+            <div className="mb-10 self-center">
                 <Button className="flex flex-row w-36 h-[35px] font-bold align-middle items-center rounded-full" color="white">
                     <ArrowLeftOnRectangleIcon width={20} className="mr-2 fill-green-700"/>
                     <div className="font-extrabold text-green-700">LOG OUT</div>

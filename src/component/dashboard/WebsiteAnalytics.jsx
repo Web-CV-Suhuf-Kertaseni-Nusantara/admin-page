@@ -6,7 +6,7 @@ export default function WebsiteAnalytics() {
     return(
         <>
             <div className="md:flex sm:flex-row flex-col pr-5 pt-2 pl-4 mb-2 hidden">
-                <div className="sm:grow font-bold">Website Analytics</div>
+                <div className="sm:grow font-bold font-sans">Website Analytics</div>
                 <div className="sm:flex hidden mr-10 flex-row items-center font-sans">
                     <GoDotFill color="#A88AD4"/>
                     Total Visitor

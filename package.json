@@ -1,5 +1,5 @@
 {
-  "name": "tailwind-test",
+  "name": "adminpage",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -19,7 +19,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
-    "recharts": "^2.7.2"
+    "reactjs-popup": "^2.0.5",
+    "recharts": "^2.7.2",
+    "tailwind-scrollbar": "^3.0.4"
   },
   "devDependencies": {
     "@types/react": "18.0.17",

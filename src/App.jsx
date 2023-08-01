@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SideBar from "./component/sidebar";
 import DashboardContent from "./component/dashboard/DashboardPage";
-import ProductsContent from "./component/product";
+import ProductsContent from "./component/product/product";
 
 
 export default function App() {
@@ -21,7 +21,7 @@ export default function App() {
         </div>
         <div className="md:flex">
           <SideBar onItemClick={handleItemClick}/>
-          <main className="sm:flex-1 bg-[#EEEEEE] min-h-screen">
+          <main className="sm:flex-1 bg-[#EEEEEE] h-[100vh] overflow-y-scroll">
             {content === 'Dashboard' && <DashboardContent/>}
             {content === 'Products' && <ProductsContent/>}
           </main>
