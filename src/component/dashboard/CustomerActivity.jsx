@@ -1,28 +1,17 @@
-import { 
-    Tooltip, 
-    ReferenceLine, 
-    Area, 
-    AreaChart, 
-    CartesianGrid, 
-    ResponsiveContainer,
-    XAxis,
-    YAxis,
-    BarChart,
-    Bar, 
-} from "recharts";
-import CustomChart from "../../models/CustomChart";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function CustomerActivity() {
-    const data = [
-        {day:"mon", activityCount: 2345},
-        {day:"tue", activityCount: 2012},
-        {day:"wed", activityCount: 1120},
-        {day:"thu", activityCount: 2111},
-        {day:"fri", activityCount: 2012},
-        {day:"sat", activityCount: 1012},
-        {day:"sun", activityCount: 1012},
+    const [ showLandscape, setLandscape] = useState(true);
+    useEffect(() => {
+        const handleResize = () => window.innerWidth < 720 ? setLandscape(false) : setLandscape(true)
+        window.addEventListener('resize', handleResize)
 
-    ]
+        handleResize();
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+
     return(
         <>
             <div className="flex flex-col text-white p-4 w-64">
