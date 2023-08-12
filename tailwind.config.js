@@ -11,6 +11,9 @@ export default withMT({
       },
       fontFamily: {
         lato: ['Lato', 'sans-serif']
+      },
+      screens: {
+        '3xl': '1650px',
       }
     },
   },

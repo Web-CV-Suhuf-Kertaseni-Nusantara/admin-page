@@ -46,11 +46,13 @@ export default function AddProduct() {
                             <AiFillCaretDown className="ml-1"/>
                         </div>
                     </button>
-                    {open && <div className="absolute bg-[#f6f6f6] rounded-md divide-y-2 ml-4 drop-shadow-DashboardShadow">
-                        <div className="flex flex-col h-16 w-20 items-start overflow-y-auto scrollbar-thumb-green-600 scrollbar-thin "><button onClick={() => {setItem('Menu1'); setOpen(false)}}>Type 1</button>
-                        <button onClick={() => {setItem('Menu2'); setOpen(false)}}>Type 2</button>
-                        <button onClick={() => {setItem('Other'); setOpen(false)}}>Other</button></div>
-                    </div>}</div>
+                    </div>
+                {open && <div className="absolute mt-7 bg-[#f6f6f6] rounded-md divide-y-2 ml-[50px] drop-shadow-DashboardShadow">
+                    <div className="flex flex-col h-16 w-20 items-start overflow-y-auto scrollbar-thumb-green-600 scrollbar-thin ">
+                    <button onClick={() => {setItem('Menu1'); setOpen(false)}}>Type 1</button>
+                    <button onClick={() => {setItem('Menu2'); setOpen(false)}}>Type 2</button>
+                    <button onClick={() => {setItem('Other'); setOpen(false)}}>Other</button></div>
+                </div>}
                 </div>
                 <div id="input-price" className="flex flex-row mt-[5px]">
                     <Typography className='font-bold text-opacity-40 text-black ml-[2px]'>Price</Typography>

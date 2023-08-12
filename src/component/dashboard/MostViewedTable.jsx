@@ -42,7 +42,7 @@ const body_table = [
 export default function MostViewedTable() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 725 }} aria-label="simple table">
+      <Table sx={{ minWidth: 815 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             {head_table.map((head) => (
