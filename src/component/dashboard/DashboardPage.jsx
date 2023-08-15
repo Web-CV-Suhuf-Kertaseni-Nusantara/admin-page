@@ -3,8 +3,8 @@ import { Typography } from "@material-tailwind/react";
 import DashboardCard from "./CardList";
 import WebsiteAnalytics from "./WebsiteAnalytics";
 import MostViewedProduct from "./MostViewed";
-import AddProduct from "../../models/AddProduct";
 import CustomerActivity from "./CustomerActivity";
+import AddProd from "../../models/Add";
 
 export default function DashboardPage() {
  
@@ -19,14 +19,14 @@ export default function DashboardPage() {
                     <div className="container md:hidden text-center font-bold text-xl outline-8 bg-green-600 text-white p-2 rounded-2xl">Open with Full Screen Web View to See Full Analytics</div>
                     <div id="col1" className="md:flex hidden flex-row gap-10 3xl:gap-12">
                         <div>
-                            <Card color="transparent" id="rcolumn1" className="flex shadow-none md:flex-row mb-[20px] sm:gap-11">
+                            <Card color="transparent" id="rcolumn1" className="flex shadow-none md:flex-row mb-[20px] gap-5">
                                 <DashboardCard/>
                             </Card>
                             <Card id="rcolumn2" color="white" className="p-4 sm:h-auto sm:w-auto h-[200px] drop-shadow-DashboardShadow">
                                 <WebsiteAnalytics/>
                             </Card>
                         </div>
-                        <Card className="md:block hidden"><AddProduct/></Card>
+                        <Card className="md:block hidden"><AddProd/></Card>
                     </div>
                     <div id="col2" className="md:flex hidden flex-row mt-[20px] gap-10 3xl:gap-12 mb-10">
                         <Card><MostViewedProduct/></Card>

@@ -26,7 +26,7 @@ export default function AddProduct() {
                 </div>
                 <div id="input-image">
                     <Typography className='font-bold text-opacity-40 text-black mt-[10px]'>Image</Typography>
-                    <Button onClick={GetDeviceProp} className="h-[50px] w-[60px] bg-white drop-shadow-md shadow-gray-200 hover:shadow-gray-200 hover:bg-gray-100 mr-2">
+                    <Button className="h-[50px] w-[60px] bg-white drop-shadow-md shadow-gray-200 hover:shadow-gray-200 hover:bg-gray-100 mr-2">
                         <div className="font-normal text-gray-700 text-2xl">+</div>
                     </Button>
                     <Button className="h-[50px] w-[60px] bg-white drop-shadow-md shadow-gray-200 hover:shadow-gray-200 hover:bg-gray-100 mr-2">

@@ -10,7 +10,7 @@ export default function DashboardCard() {
     }
     return (
         <>
-            <Card id="card1" className="md:h-[110px] md:w-[255px] 3xl:w-[310px] 3xl:h-[130px] bg-[#A88AD4] p-4 self-center md:self-start drop-shadow-DashboardShadow">
+            <Card id="card1" className="md:h-[100px] md:w-[225px] 3xl:w-[310px] 3xl:h-[130px] bg-[#A88AD4] p-4 self-center md:self-start drop-shadow-DashboardShadow">
                 <div className="flex flex-col">
                     <div className="flex flex-row pl-1 pt-1">
                         <div className="p-1 h-[26px] 3xl:h-[35px] 3xl:w-[35px] bg-white rounded-lg mr-2"><BsFillPersonFill className="h-4 w-4 3xl:h-[25px] 3xl:w-[25px] 3xl:ml-[1px] fill-black"/></div>
@@ -22,7 +22,7 @@ export default function DashboardCard() {
                     </div>
                 </div>
             </Card>
-            <Card id="card2" className="md:h-[110px] md:w-[255px] 3xl:w-[310px] 3xl:h-[130px] bg-[#B9E303] p-4 self-center md:self-start drop-shadow-DashboardShadow">
+            <Card id="card2" className="md:h-[100px] md:w-[225px] 3xl:w-[310px] 3xl:h-[130px] bg-[#B9E303] p-4 self-center md:self-start drop-shadow-DashboardShadow">
                 <div className="flex flex-col">
                     <div className="flex flex-row pl-1 pt-1">
                         <div className="p-1 h-[26px] 3xl:h-[35px] 3xl:w-[35px] bg-white rounded-lg mr-2"><BsFillPersonFill className="h-4 w-4 3xl:h-[25px] 3xl:w-[25px] 3xl:ml-[1px] fill-black"/></div>
@@ -34,7 +34,7 @@ export default function DashboardCard() {
                     </div>
                 </div>
             </Card>
-            <Card id="card3" className="md:h-[110px] md:w-[255px] 3xl:w-[310px] 3xl:h-[130px] bg-[#B5D5E1] p-4 self-center md:self-start drop-shadow-DashboardShadow">
+            <Card id="card3" className="md:h-[100px] md:w-[225px] 3xl:w-[310px] 3xl:h-[130px] bg-[#B5D5E1] p-4 self-center md:self-start drop-shadow-DashboardShadow">
                 <div className="flex flex-col">
                     <div className="flex flex-row pl-1 pt-1">
                         <div className="p-1 h-[26px] 3xl:h-[35px] 3xl:w-[35px] bg-white rounded-lg mr-2"><BsFillPersonFill className="h-4 w-4 3xl:h-[25px] 3xl:w-[25px] 3xl:ml-[1px] fill-black"/></div>
