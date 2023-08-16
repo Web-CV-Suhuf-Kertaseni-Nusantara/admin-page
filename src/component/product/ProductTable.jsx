@@ -3,7 +3,9 @@ import { IconButton } from "@material-tailwind/react";
 import { Typography } from "@material-tailwind/react";
 import { Tooltip } from "@material-tailwind/react"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { useState } from "react";
 import { BsTrash } from "react-icons/bs";
+import AddProduct from "../dashboard/AddProducts";
 
 const head_table = ["PID", "Image","Product Name", "Price", "Stock", "External Link", "Action"]
 
@@ -102,8 +104,11 @@ const body_table = [
 
 
 export default function ProductTable() {
+    const [ setOpen, setOpenState ] = useState(false);
+
     return(
-        <>
+        <>  
+            {setOpen == true ? <div className="absolute flex h-auto w-auto z-10"><AddProduct/></div>: null}
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 725 }} aria-label="simple table">
                     <TableHead>
@@ -138,7 +143,7 @@ export default function ProductTable() {
                         <TableCell>{external_link}</TableCell>
                         <TableCell>
                             <Tooltip content="Edit Product" className="bg-green-600 text-white drop-shadow-DashboardShadow">
-                            <Button className='pl-2 pr-2 pt-1 pb-1' color='green'>Edit</Button>
+                            <Button className='pl-2 pr-2 pt-1 pb-1' onClick={() => setOpenState(!setOpen)} color='green'>Edit</Button>
                             </Tooltip>
                             <Tooltip content="Delete Product" className="bg-red-600 text-white drop-shadow-DashboardShadow">
                             <IconButton className='h-6 w-6 ml-1 bg-red-500'><BsTrash/></IconButton>

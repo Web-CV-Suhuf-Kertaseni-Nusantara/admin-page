@@ -2,8 +2,8 @@ import { GoDotFill } from "react-icons/go"
 import { useState } from "react";
 import { Typography } from "@material-tailwind/react";
 import { AiFillCaretDown } from "react-icons/ai";
-import WebsiteChartAnalytics from "../../models/WebsiteChartAnalytics";
-import ChartProducts from "../../models/WebsiteChartProduct";
+import WebsiteChartAnalytics from "./WebsiteChartAnalytics";
+import ChartProducts from "./WebsiteChartProduct";
 
 
 export default function WebsiteAnalytics() {

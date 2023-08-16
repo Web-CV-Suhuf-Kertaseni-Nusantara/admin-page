@@ -133,7 +133,7 @@ export default function WebsiteChartAnalytics() {
 
     return (
         <>
-            <ResponsiveContainer height={270} className={`${showChart ? 'flex' : 'hidden'}`}>
+            <ResponsiveContainer height={245} className={`${showChart ? 'flex' : 'hidden'}`}>
                 <LineChart data={database} margin={{ right: 30, top: 20, bottom: 10}}>
                     <CartesianGrid strokeDasharray='3 3'/>
                     <XAxis dataKey={"name"} interval={'preserveStartEnd'} className="font-semibold font-sans"/>

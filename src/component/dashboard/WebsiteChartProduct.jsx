@@ -133,7 +133,7 @@ export default function ChartProducts() {
 
     return (
         <>
-            <ResponsiveContainer height={235} className={`${showChart ? 'flex' : 'hidden'} z-`}>
+            <ResponsiveContainer height={245} className={`${showChart ? 'flex' : 'hidden'} z-`}>
                 <LineChart data={database} margin={{ right: 30, top: 20, bottom: 10}}>
                     <CartesianGrid strokeDasharray='3 3'/>
                     <XAxis dataKey={"name"} interval={'preserveStartEnd'} className="font-semibold font-sans"/>
