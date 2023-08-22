@@ -1,14 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBar from "./component/sidebar";
 import DashboardContent from "./component/dashboard/DashboardPage";
 import ProductsContent from "./component/product/product";
+import axios from "axios";
 
+axios.defaults.withCredentials = true;
 
 export default function App() {
   const user = { name: 'Resky Adhyaksa', position: 'Manager' }
   const [content, setContent] = useState('Dashboard');
   const handleItemClick = (item) => setContent(item);
 
+  async function checkLogged() {
+    // let res = await axios.get("http://localhost:5000/me")
+    try {
+      const response = await axios.get("http://localhost:5000/me");
+      console.log(response.msg);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    checkLogged()
+  }, []);
   return (
     <>
       <div>
@@ -20,10 +35,10 @@ export default function App() {
           </nav>
         </div>
         <div className="md:flex">
-          <SideBar onItemClick={handleItemClick}/>
+          <SideBar onItemClick={handleItemClick} />
           <main className="sm:flex-1 bg-[#EEEEEE] h-[100vh] overflow-y-scroll">
-            {content === 'Dashboard' && <DashboardContent/>}
-            {content === 'Products' && <ProductsContent/>}
+            {content === 'Dashboard' && <DashboardContent />}
+            {content === 'Products' && <ProductsContent />}
           </main>
         </div>
       </div>
