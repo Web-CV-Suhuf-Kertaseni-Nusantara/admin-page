@@ -11,19 +11,19 @@ export default function App() {
   const [content, setContent] = useState('Dashboard');
   const handleItemClick = (item) => setContent(item);
 
-  async function checkLogged() {
-    // let res = await axios.get("http://localhost:5000/me")
-    try {
-      const response = await axios.get("http://localhost:5000/me");
-      console.log(response.msg);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // async function checkLogged() {
+  //   // let res = await axios.get("http://localhost:5000/me")
+  //   try {
+  //     const response = await axios.get("http://localhost:5000/me");
+  //     console.log(response.msg);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
-  useEffect(() => {
-    checkLogged()
-  }, []);
+  // useEffect(() => {
+  //   checkLogged()
+  // }, []);
   return (
     <>
       <div>
