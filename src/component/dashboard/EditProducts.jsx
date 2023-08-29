@@ -49,13 +49,14 @@ export default function EditProduct({ productId }) {
 
     return (
         <>
-            <div className="flex flex-col h-[100%] bg-white rounded-lg shadow-xl outline-none z-10 pt-5 pl-6 pr-3 pb-2">
+            {product && <div className="flex flex-col h-[100%] bg-white rounded-lg shadow-xl outline-none z-10 pt-5 pl-6 pr-3 pb-2">
                 {/** TITLE */}
                 <head className="flex justify-between mb-2">
                     <div className="mt-1 font-bold text-lg font-lato text-black">Edit Product</div>
                 </head>
 
                 {/** MAIN FORM */}
+
                 <main className="flex flex-row mt-1 gap-10 mr-2">
                     <div className="flex flex-col">
 
@@ -81,7 +82,7 @@ export default function EditProduct({ productId }) {
                             {/** NAME */}
                             <div id="product-name">
                                 <p className="text-gray-500 font-lato font-bold">Product Name : </p>
-                                <input value={product.name} placeholder="Enter Name Here" className="placeholder-black"
+                                <input value={product.name} onChange={(e) => { this.value = e.target.value }} placeholder="Enter Name Here" className="placeholder-black"
                                     rounded-4 style={{ width: "150px", outline: "none", fontFamily: "lato", fontWeight: "bold", color: "black" }} />
                             </div>
 
@@ -167,7 +168,7 @@ export default function EditProduct({ productId }) {
                 <footer id="input-deskripsi" className={`grid place-content-center content-end mr-5 ${images.length > 0 ? 'mb-3' : 'mb-10'}`}>
                     <Button className="pt-2 pb-2 pr-5 pl-5 rounded-xl">Add Product</Button>
                 </footer>
-            </div>
+            </div>}
         </>
     );
 }

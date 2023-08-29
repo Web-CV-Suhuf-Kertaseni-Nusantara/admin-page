@@ -6,14 +6,15 @@ import DashboardContent from "./component/dashboard/DashboardPage";
 import ProductsContent from "./component/product/product";
 import axios from "axios";
 
+
 axios.defaults.withCredentials = true;
 
 export default function App() {
-  const [content, setContent] = useState('Login');
+  const [content, setContent] = useState('Dashboard');
 
-  const handleItemClick = (item) => {
-    setContent(item);
-  };
+  // const handleItemClick = (item) => {
+  //   setContent(item);
+  // };
 
   const handleCreateAccountClick = () => {
     setContent('Register');
@@ -50,13 +51,12 @@ export default function App() {
       )}
 
       <div className="md:flex">
-        {content === 'Dashboard' && <SideBar onItemClick={handleItemClick} />}
-
+        <SideBar />
         <main className="sm:flex-1 bg-[#EEEEEE] h-[100vh] overflow-y-scroll">
           {content === 'Login' && <LoginContent onLoginClick={handleLoginClick} onCreateAccountClick={handleCreateAccountClick} />}
           {content === 'Register' && <RegisterContent onHaveAccountClick={handleHaveAccountClick} />}
-          {content === 'Dashboard' && <DashboardContent />}
-          {content === 'Products' && <ProductsContent />}
+          <DashboardContent />
+          {/* {content === 'Products' && <ProductsContent />} */}
         </main>
       </div>
     </div>
