@@ -91,13 +91,13 @@ return (
                     </section>
                     {/** DESKRIPSI
                      * notes: [ INI UNTUK POSITIONING APABILA IMAGE BELUM DI INPUT ] */}
-                    {images.length > 0 ? null : 
+                    {/* {images.length > 0 ? null : 
                         <section id="input-deskripsi">
                             <div className="text-gray-500 font-lato font-bold mt-2">Product Description</div>
                             <textarea placeholder="Enter Link Here" className="placeholder-black resize-none scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-blue-gray-100 pr-[1px]" 
                                 rounded-4 style={{width: "95%", height: "50px", outline: "none", fontFamily: "lato", fontWeight: "bold", color: "black"}}/>
                         </section>  
-                    }
+                    } */}
                 </div>
 
 

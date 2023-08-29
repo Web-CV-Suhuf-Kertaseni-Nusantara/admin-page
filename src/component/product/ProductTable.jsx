@@ -142,12 +142,21 @@ export default function ProductTable() {
                         <TableCell><div className="ml-4">{stock}</div></TableCell>
                         <TableCell>{external_link}</TableCell>
                         <TableCell>
-                            <Tooltip content="Edit Product" className="bg-green-600 text-white drop-shadow-DashboardShadow">
-                            <Button className='pl-2 pr-2 pt-1 pb-1' onClick={() => setOpenState(!setOpen)} color='green'>Edit</Button>
-                            </Tooltip>
-                            <Tooltip content="Delete Product" className="bg-red-600 text-white drop-shadow-DashboardShadow">
-                            <IconButton className='h-6 w-6 ml-1 bg-red-500'><BsTrash/></IconButton>
-                            </Tooltip>
+                            <div className="flex flex-col gap-1">
+                                <div className="flex flex-row">
+                                    <Tooltip content="Edit Product" className="bg-green-600 text-white drop-shadow-DashboardShadow">
+                                    <Button className='pl-2 pr-2 pt-1 pb-1' onClick={() => setOpenState(!setOpen)} color='green'>Edit</Button>
+                                    </Tooltip>
+                                    <Tooltip content="Delete Product" className="bg-red-600 text-white drop-shadow-DashboardShadow">
+                                    <IconButton className='h-6 w-6 ml-1 bg-red-500'><BsTrash/></IconButton>
+                                    </Tooltip>
+                                </div>
+                                <div>
+                                    <Tooltip content="Push Product" className="bg-cyan-500 text-white drop-shadow-DashboardShadow">
+                                    <Button className='px-[21px] pt-1 pb-1' onClick={() => console.log('push')} color='cyan'>Push</Button>
+                                    </Tooltip>
+                                </div>
+                            </div>
                         </TableCell>
                         </TableRow>
                     ))}
