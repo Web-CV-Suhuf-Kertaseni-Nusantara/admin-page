@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBar from "./component/sidebar";
-import LoginContent from "./component/login/LoginPage"; 
+import LoginContent from "./component/login/LoginPage";
 import RegisterContent from "./component/login/RegisterPage";
 import DashboardContent from "./component/dashboard/DashboardPage";
 import ProductsContent from "./component/product/product";
+import axios from "axios";
+
+
+axios.defaults.withCredentials = true;
 
 export default function App() {
-  const [content, setContent] = useState('Login');
+  const [content, setContent] = useState('Dashboard');
 
-  const handleItemClick = (item) => {
-    setContent(item);
-  };
+  // const handleItemClick = (item) => {
+  //   setContent(item);
+  // };
 
   const handleCreateAccountClick = () => {
     setContent('Register');
@@ -19,11 +23,24 @@ export default function App() {
   const handleHaveAccountClick = () => {
     setContent('Login');
   };
-  
+
   const handleLoginClick = () => {
     setContent('Dashboard');
   };
 
+  // async function checkLogged() {
+  //   // let res = await axios.get("http://localhost:5000/me")
+  //   try {
+  //     const response = await axios.get("http://localhost:5000/me");
+  //     console.log(response.msg);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   checkLogged()
+  // }, []);
   return (
     <div>
       {content === 'Dashboard' && (
@@ -34,13 +51,12 @@ export default function App() {
       )}
 
       <div className="md:flex">
-        {content === 'Dashboard' && <SideBar onItemClick={handleItemClick}/>}
-        
+        <SideBar />
         <main className="sm:flex-1 bg-[#EEEEEE] h-[100vh] overflow-y-scroll">
-          {content === 'Login' && <LoginContent onLoginClick={handleLoginClick} onCreateAccountClick={handleCreateAccountClick}/>}
-          {content === 'Register' && <RegisterContent onHaveAccountClick={handleHaveAccountClick}/>}
-          {content === 'Dashboard' && <DashboardContent />}
-          {content === 'Products' && <ProductsContent />}
+          {content === 'Login' && <LoginContent onLoginClick={handleLoginClick} onCreateAccountClick={handleCreateAccountClick} />}
+          {content === 'Register' && <RegisterContent onHaveAccountClick={handleHaveAccountClick} />}
+          <DashboardContent />
+          {/* {content === 'Products' && <ProductsContent />} */}
         </main>
       </div>
     </div>

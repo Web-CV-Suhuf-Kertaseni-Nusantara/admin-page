@@ -4,33 +4,37 @@ import {
     ListItem,
     ListItemPrefix,
     Button,
-  } from "@material-tailwind/react";
+} from "@material-tailwind/react";
 
 import { PresentationChartBarIcon, CubeIcon, ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Link, redirect, useLocation } from "react-router-dom";
 
-export default function SideBar({ onItemClick }) {
+
+export default function SideBar() {
     /** IMPORT HERE FOR THE USER INFORMATION FROM DB */
     const user = {
         name: 'Resky Adhyaksa',
         position: 'Manager'
     }
 
-    const [ showSidebar, setShowSidebar] = useState(true);
-    const [ DashboardActive, setDashboardActive ] = useState(true);
+    const location = useLocation();
 
-    const handleItemClick = (item) => {
-        onItemClick(item)
-        if(item == 'Dashboard'){
-            setDashboardActive(true)
-            // setProductActive(false)
-        } else {
-            setDashboardActive(false)
-            // setProductActive(true)
-        }
-    }
-    
+    const [showSidebar, setShowSidebar] = useState(true);
+    // const [DashboardActive, setDashboardActive] = useState("");
+    // console.log(location.pathname);
+    // const handleItemClick = (item) => {
+    //     onItemClick(item)
+    //     if (item == 'Dashboard') {
+    //         setDashboardActive(true)
+    //         // setProductActive(false)
+    //     } else {
+    //         setDashboardActive(false)
+    //         // setProductActive(true)
+    //     }
+    // }
+
     useEffect(() => {
         const handleResize = () => window.innerWidth < 720 ? setShowSidebar(false) : setShowSidebar(true)
         window.addEventListener('resize', handleResize)
@@ -49,23 +53,27 @@ export default function SideBar({ onItemClick }) {
                 <div className="text-sm text-white font-sans">{user.position}</div>
             </div>
             <List className="text-white mt-5">
-                <ListItem onClick={() => { handleItemClick('Dashboard') }} className={`hover:bg-black focus:bg-white focus:bg-opacity-50 ${DashboardActive ? 'bg-white bg-opacity-50' : 'bg-transparent'}`}>
-                    <ListItemPrefix>
-                    <PresentationChartBarIcon className="h-5 w-5 fill-white" />
-                    </ListItemPrefix>
-                    <div className="text-white font-sans">Dashboard</div>
-                </ListItem>
-                <ListItem onClick={() => { handleItemClick('Products') }} className={`hover:bg-black focus:bg-white focus:bg-opacity-50 ${DashboardActive ? 'bg-transparent' : 'bg-white bg-opacity-50'}`}>
-                    <ListItemPrefix>
-                    <CubeIcon className="h-5 w-5 fill-white" />
-                    </ListItemPrefix>
-                    <div className="text-white font-sans">Products</div>
-                </ListItem>
+                <Link to="/">
+                    <ListItem className={`hover:bg-black focus:bg-white focus:bg-opacity-50 ${location.pathname == "/" || location.pathname == "" ? 'bg-white bg-opacity-50' : 'bg-transparent'}`}>
+                        <ListItemPrefix>
+                            <PresentationChartBarIcon className="h-5 w-5 fill-white" />
+                        </ListItemPrefix>
+                        <div className="text-white font-sans">Dashboard</div>
+                    </ListItem>
+                </Link>
+                <Link to="/products">
+                    <ListItem className={`hover:bg-black focus:bg-white focus:bg-opacity-50 ${location.pathname == "/products" ? 'bg-white bg-opacity-50' : 'bg-transparent'}`}>
+                        <ListItemPrefix>
+                            <CubeIcon className="h-5 w-5 fill-white" />
+                        </ListItemPrefix>
+                        <div className="text-white font-sans">Products</div>
+                    </ListItem>
+                </Link>
             </List>
             <div className="grow"></div>
             <div className="mb-10 self-center">
                 <Button className="flex flex-row w-36 h-[35px] font-bold align-middle items-center rounded-full" color="white">
-                    <ArrowLeftOnRectangleIcon width={20} className="mr-2 fill-green-700"/>
+                    <ArrowLeftOnRectangleIcon width={20} className="mr-2 fill-green-700" />
                     <div className="font-extrabold text-green-700">LOG OUT</div>
                 </Button>
             </div>
