@@ -12,100 +12,6 @@ import SideBar from "../sidebar";
 
 const head_table = ["Name", "Image", "Description", "Category", "Price", "Stock", "Shopee Link", "Tokopedia Link", "Action"]
 
-const body_table = [
-    {
-        product_id: 'G00001',
-        type: 'Gift Box',
-        name: 'Verdant Bloom Box',
-        price: 55000,
-        stock: 192,
-        external_link: 'http://tokopedia.com',
-        photo: 'src/assets/product1.png'
-    },
-    {
-        type: 'Gift Box',
-        product_id: 'G00002',
-        name: 'Greenery Gift Box',
-        price: 48000,
-        stock: 213,
-        external_link: 'http://shopee.com',
-        photo: 'src/assets/product2.png'
-    },
-    {
-        product_id: 'G00003',
-        type: 'Gift Box',
-        name: 'Verdant Bloom Box',
-        price: 55000,
-        stock: 192,
-        external_link: 'http://tokopedia.com',
-        photo: 'src/assets/product1.png'
-    },
-    {
-        product_id: 'G00004',
-        type: 'Gift Box',
-        name: 'Greenery Gift Box',
-        price: 48000,
-        stock: 213,
-        external_link: 'http://shopee.com',
-        photo: 'src/assets/product2.png'
-    },
-    {
-        product_id: 'G00005',
-        type: 'Gift Box',
-        name: 'Verdant Bloom Box',
-        price: 55000,
-        stock: 192,
-        external_link: 'http://tokopedia.com',
-        photo: 'src/assets/product1.png'
-    },
-    {
-        type: 'Gift Box',
-        product_id: 'G00006',
-        name: 'Greenery Gift Box',
-        price: 48000,
-        stock: 213,
-        external_link: 'http://shopee.com',
-        photo: 'src/assets/product2.png'
-    },
-    {
-        product_id: 'G00007',
-        type: 'Gift Box',
-        name: 'Verdant Bloom Box',
-        price: 55000,
-        stock: 192,
-        external_link: 'http://tokopedia.com',
-        photo: 'src/assets/product1.png'
-    },
-    {
-        product_id: 'G00008',
-        type: 'Gift Box',
-        name: 'Greenery Gift Box',
-        price: 48000,
-        stock: 213,
-        external_link: 'http://shopee.com',
-        photo: 'src/assets/product2.png'
-    },
-    {
-        product_id: 'G00009',
-        type: 'Gift Box',
-        name: 'Verdant Bloom Box',
-        price: 55000,
-        stock: 192,
-        external_link: 'http://tokopedia.com',
-        photo: 'src/assets/product1.png'
-    },
-    {
-        product_id: 'G00010',
-        type: 'Gift Box',
-        name: 'Greenery Gift Box',
-        price: 48000,
-        stock: 213,
-        external_link: 'http://shopee.com',
-        photo: 'src/assets/product2.png'
-    },
-];
-
-
 export default function ProductTable() {
     const [open, setOpenState] = useState(false);
     const [products, setProducts] = useState([]);
@@ -113,10 +19,26 @@ export default function ProductTable() {
 
     async function fetchProducts() {
         try {
-            const response = await axios.get('http://localhost:5000/product');
+            const response = await axios.get('http://localhost:5000/api/products/all');
             setProducts(response.data);
         } catch (error) {
             console.error('Error fetching products:', error);
+        }
+    }
+
+    async function togglePushProduct(productId, isHot_deal) {
+        try {
+            const response = await axios.patch(`http://localhost:5000/api/products/edit-hot-deal?productId=${productId}`);
+            const updatedProducts = products.map((product) => {
+                if (product.uuid === productId) {
+                    return { ...product, isHot_deal: !isHot_deal };
+                }
+                return product;
+            });
+            setProducts(updatedProducts);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error toggle push:', error);
         }
     }
 
@@ -166,7 +88,7 @@ export default function ProductTable() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {products.map(({ uuid, category, description, image, name, price, stock, shopee_link, tokopedia_link }, index) => (
+                                {products.map(({ uuid, category, description, image, name, isHot_deal, price, stock, shopee_link, tokopedia_link }, index) => (
                                     <TableRow key={index}>
                                         <TableCell><div className="h-4 w-4 bg-[#232323] bg-opacity-20 rounded-sm ml-3" /></TableCell>
                                         <TableCell>
@@ -175,10 +97,9 @@ export default function ProductTable() {
                                                 {/* <div className="font-lato text-xs text-gray-400 font-bold pl-[1px]">{uuid}</div> */}
                                             </div></TableCell>
                                         <TableCell>
-                                            {image.map((img => (
-                                                <img src={img} alt={image.name} className='w-40 ml-2 mb-2' />
-
-                                            )))}
+                                            {image.length > 0 && (
+                                                <img src={image[0]} alt={name} className='w-40 ml-2 mb-2' />
+                                                )}
                                         </TableCell>
                                         <TableCell>
                                             <div className='flex flex-row items-center'>
@@ -191,15 +112,26 @@ export default function ProductTable() {
                                         <TableCell>{shopee_link}</TableCell>
                                         <TableCell>{tokopedia_link}</TableCell>
                                         <TableCell>
-                                            <div className="flex gap-5">
-                                                <Tooltip content="Edit Product" className="bg-green-600 text-white drop-shadow-DashboardShadow">
-                                                    <Button className='pl-2 pr-2 pt-1 pb-1' onClick={() => handleOpenEdit(uuid)} color='green'>Edit</Button>
-                                                </Tooltip>
-                                                <button onClick={() => handleDelete(uuid)}>
-                                                    <Tooltip content="Delete Product" className="bg-red-600 text-white drop-shadow-DashboardShadow">
-                                                        <IconButton className='h-6 w-6 ml-1 bg-red-500'><BsTrash /></IconButton>
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex flex-row">
+                                                    <Tooltip content="Edit Product" className="bg-green-600 text-white drop-shadow-DashboardShadow">
+                                                    <Button className='pl-2 pr-2 pt-1 pb-1' onClick={() => setOpenState(!setOpen)} color='green'>Edit</Button>
                                                     </Tooltip>
-                                                </button>
+                                                    <Tooltip content="Delete Product" className="bg-red-600 text-white drop-shadow-DashboardShadow">
+                                                    <IconButton className='h-6 w-6 ml-1 bg-red-500'><BsTrash/></IconButton>
+                                                    </Tooltip>
+                                                </div>
+                                                <div>
+                                                    <Tooltip content="Push Product" className="bg-cyan-500 text-white drop-shadow-DashboardShadow">
+                                                    <Button
+                                                        className={`px-[21px] pt-1 pb-1`}
+                                                        onClick={() => togglePushProduct(uuid, isHot_deal)}
+                                                        color={isHot_deal ? 'red' : 'cyan'}
+                                                        >
+                                                        {isHot_deal ? 'Unpush' : 'Push'}
+                                                    </Button>
+                                                    </Tooltip>
+                                                </div>
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -208,7 +140,6 @@ export default function ProductTable() {
                         </Table>
                     </TableContainer>
                 </div>
-
             </div>
         </>
     )
