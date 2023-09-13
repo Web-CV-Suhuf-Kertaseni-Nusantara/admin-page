@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import { CartesianGrid, LineChart, ResponsiveContainer, XAxis, YAxis, Line, Tooltip } from "recharts";
+import axios from 'axios';
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -32,7 +32,7 @@ const ChangeMonth = (label) => {
     return 'March';
   }
   if (label === 'Jun') {
-    return 'Juny';
+    return 'June';
   }
   if (label === 'Jul') {
     return 'July';
@@ -57,72 +57,42 @@ const ChangeMonth = (label) => {
 
 
 export default function WebsiteChartAnalytics() {
-
-  const database = [
-    {
-      name: 'Jan',
-      Visitor: 1222,
-      LinkVisited: 2123
-    },
-    {
-      name: 'Feb',
-      Visitor: 1222,
-      LinkVisited: 2123
-    },
-    {
-      name: 'Mar',
-      Visitor: 2337,
-      LinkVisited: 2123
-    },
-    {
-      name: 'Apr',
-      Visitor: 1222,
-      LinkVisited: 2123
-    },
-    {
-      name: 'May',
-      Visitor: 1645,
-      LinkVisited: 2123
-    },
-    {
-      name: 'Jun',
-      Visitor: 2323,
-      LinkVisited: 1212
-    },
-    {
-      name: 'Jul',
-      Visitor: 777,
-      LinkVisited: 2123
-    },
-    {
-      name: 'Aug',
-      Visitor: 998,
-      LinkVisited: 3322
-    },
-    {
-      name: 'Sep',
-      Visitor: 1444,
-      LinkVisited: 1023
-    },
-    {
-      name: 'Oct',
-      Visitor: 1222,
-      LinkVisited: 1666
-    },
-    {
-      name: 'Nov',
-      Visitor: 1009,
-      LinkVisited: 1977
-    },
-    {
-      name: 'Dec',
-      Visitor: 2012,
-      LinkVisited: 2322
-    },
-  ]
-
+  const [monthlyData, setMonthlyData] = useState([]);
   const [showChart, setShowChart] = useState(true)
+
+  const fetchMonthlyData = async () => {
+    try {
+      const currentYear = new Date().getFullYear(); // Get the current year
+      const response = await axios.get('http://localhost:5000/api/analytics/web-visitors');
+      
+      // Find the data for the current year
+      const currentYearData = response.data.find((item) => item.year === currentYear);
+      
+      if (!currentYearData) {
+        return [];
+      }
+      
+      // Create an array of months with 0 values for missing months
+      const formattedData = Array.from({ length: 12 }, (_, index) => {
+        const monthInfo = currentYearData.find((item) => item.month === index + 1);
+        return {
+          month: index + 1,
+          monthLabel: new Date(currentYear, index, 1).toLocaleString('default', { month: 'short' }),
+          totalShopeeClicks: monthInfo?.totalShopeeClicks || 0,
+          totalTokopediaClicks: monthInfo?.totalTokopediaClicks || 0,
+        };
+      });
+  
+      return formattedData;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return [];
+    }
+  };
+
   useEffect(() => {
+    fetchMonthlyData().then((data) => setMonthlyData(data));
+
     const handleResize = () => window.innerWidth < 720 ? setShowChart(false) : setShowChart(true)
     window.addEventListener('resize', handleResize)
 
@@ -130,15 +100,13 @@ export default function WebsiteChartAnalytics() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-
-
   return (
     <>
       <ResponsiveContainer height={245} className={`${showChart ? 'flex' : 'hidden'}`}>
-        <LineChart data={database} margin={{ right: 30, top: 20, bottom: 10 }}>
+        <LineChart data={monthlyData} margin={{ right: 30, top: 20, bottom: 10 }}>
           <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey={"name"} interval={'preserveStartEnd'} className="font-semibold font-sans" />
-          <YAxis className="font-sans font-semibold" />
+          <XAxis dataKey={"monthLabel"} interval={'preserveStartEnd'} className="font-semibold font-sans" />
+          <YAxis className="font-sans font-semibold" type="number" domain={[0, 24]}/>
           <Tooltip content={CustomTooltip} />
           <Line type='monotone' dataKey="Visitor" stroke="#B5D5E1" strokeWidth={2} activeDot={{ r: 5 }} dot={{ r: 0 }} />
           <Line type='monotone' dataKey="LinkVisited" strokeWidth={2} stroke="#A88AD4" activeDot={{ r: 5 }} dot={{ r: 0 }} />

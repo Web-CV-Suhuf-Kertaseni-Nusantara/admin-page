@@ -92,6 +92,19 @@ export default function AddProduct() {
         }
     };
 
+    const handleDeleteImage = (indexToDelete) => {
+        const newImagesPreview = [...imagesPreview];
+        const newImages = [...images];
+
+        newImagesPreview.splice(indexToDelete, 1); 
+        newImages.splice(indexToDelete, 1);
+
+        setImagesPreview(newImagesPreview);
+        setImages(newImages);
+        console.log('delete');
+    };
+    
+
 return (
     <>
         <form onSubmit={handleAddProductClick}>
@@ -116,8 +129,16 @@ return (
                             <div id="createProductFormImage" className={`flex flex-row w-[200px]  scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-blue-gray-100 pb-1 gap-2
                                 ${images.length > 0 ? 'h-[60px] mt-2 mb-2 overflow-y-auto' : 'h-0'}`}>
                                 {imagesPreview.map((image, index) => (
-                                    <img key={index} src={image} className="h-[100%]"/>
-                                    ))}
+                                    <div key={index} className="flex items-center">
+                                        <img src={image} className="h-[100%]" />
+                                        <button
+                                            className="ml-2 text-red-500 cursor-pointer"
+                                            onClick={() => handleDeleteImage(index)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         </section>
 

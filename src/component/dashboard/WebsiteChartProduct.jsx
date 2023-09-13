@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import { CartesianGrid, LineChart, ResponsiveContainer, XAxis, YAxis, Line, Tooltip } from "recharts";
+import axios from 'axios';
 
 const CustomTooltipProduct = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -29,10 +29,10 @@ const ChangeMonthProduct = (label) => {
       return 'April';
     }
     if (label === 'May') {
-      return 'March';
+      return 'May';
     }
     if (label === 'Jun') {
-      return 'Juny';
+      return 'June';
     }
     if (label === 'Jul') {
       return 'July';
@@ -57,71 +57,42 @@ const ChangeMonthProduct = (label) => {
 
 
 export default function ChartProducts() {
-    const database = [
-        {
-            name:'Jan',
-            tokopedia:1121,
-            shopee:3434
-        },
-        {
-            name:'Feb',
-            tokopedia:2382,
-            shopee:1213
-        },
-        {
-            name:'Mar',
-            tokopedia:1313,
-            shopee:3242
-        },
-        {
-            name:'Apr',
-            tokopedia:1441,
-            shopee:656
-        },
-        {
-            name:'May',
-            tokopedia:1711,
-            shopee:434
-        },
-        {
-            name:'Jun',
-            tokopedia:565,
-            shopee:3123
-        },
-        {
-            name:'Jul',
-            tokopedia:434,
-            shopee:3224
-        },
-        {
-            name:'Aug',
-            tokopedia:663,
-            shopee:4322
-        },
-        {
-            name:'Sep',
-            tokopedia:1515,
-            shopee:2421
-        },
-        {
-            name:'Oct',
-            tokopedia:1231,
-            shopee:4353
-        },
-        {
-            name:'Nov',
-            tokopedia:2323,
-            shopee:3234
-        },
-        {
-            name:'Dec',
-            tokopedia:1992,
-            shopee:1234
-        },
-    ]
-
+    const [monthlyData, setMonthlyData] = useState([]);
     const [ showChart, setShowChart ] = useState(true)
+
+    const fetchMonthlyData = async () => {
+      try {
+        const currentYear = new Date().getFullYear(); // Get the current year
+        const response = await axios.get('http://localhost:5000/api/analytics/product-monthly');
+        
+        // Find the data for the current year
+        const currentYearData = response.data.find((item) => item.year === currentYear);
+        
+        if (!currentYearData) {
+          return [];
+        }
+        
+        // Create an array of months with 0 values for missing months
+        const formattedData = Array.from({ length: 12 }, (_, index) => {
+          const monthInfo = currentYearData.data.find((item) => item.month === index + 1);
+          return {
+            month: index + 1,
+            monthLabel: new Date(currentYear, index, 1).toLocaleString('default', { month: 'short' }),
+            totalShopeeClicks: monthInfo?.totalShopeeClicks || 0,
+            totalTokopediaClicks: monthInfo?.totalTokopediaClicks || 0,
+          };
+        });
+    
+        return formattedData;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+      }
+    };
+  
     useEffect(() => {
+        fetchMonthlyData().then((data) => setMonthlyData(data));
+
         const handleResize = () => window.innerWidth < 720 ? setShowChart(false) : setShowChart(true)
         window.addEventListener('resize', handleResize)
 
@@ -129,18 +100,16 @@ export default function ChartProducts() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
     
-
-
     return (
         <>
             <ResponsiveContainer height={245} className={`${showChart ? 'flex' : 'hidden'} z-`}>
-                <LineChart data={database} margin={{ right: 30, top: 20, bottom: 10}}>
+                <LineChart data={monthlyData} margin={{ right: 30, top: 20, bottom: 10}}>
                     <CartesianGrid strokeDasharray='3 3'/>
-                    <XAxis dataKey={"name"} interval={'preserveStartEnd'} className="font-semibold font-sans"/>
-                    <YAxis className="font-sans font-semibold"/>
+                    <XAxis dataKey={"monthLabel"} interval={'preserveStartEnd'} className="font-semibold font-sans"/>
+                    <YAxis className="font-sans font-semibold" type="number" domain={[0, 24]}/>
                     <Tooltip content={CustomTooltipProduct}/>
-                    <Line type='monotone' dataKey="tokopedia" stroke="#B5D5E1" strokeWidth={2} activeDot={{ r: 5 }} dot={{r : 0}}/>
-                    <Line type='monotone' dataKey="shopee" strokeWidth={2} stroke="#A88AD4" activeDot={{ r: 5 }} dot={{r : 0}}/>
+                    <Line type='monotone' dataKey="totalTokopediaClicks" stroke="#B5D5E1" strokeWidth={2} activeDot={{ r: 5 }} dot={{r : 0}}/>
+                    <Line type='monotone' dataKey="totalShopeeClicks" strokeWidth={2} stroke="#A88AD4" activeDot={{ r: 5 }} dot={{r : 0}}/>
                 </LineChart>
             </ResponsiveContainer>
         </>

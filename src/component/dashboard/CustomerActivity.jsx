@@ -1,8 +1,9 @@
 import { Typography } from '@material-tailwind/react';
-import { useState, PureComponent } from 'react';
+import { useState, useEffect, PureComponent } from 'react';
 import {} from 'react-chartjs-2'
 import { GoDotFill } from 'react-icons/go';
 import { BarChart, ResponsiveContainer, Bar, Tooltip, Cell, XAxis, Legend, CartesianGrid, YAxis } from 'recharts'
+import axios from 'axios';
 
 const BarTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -18,6 +19,9 @@ const BarTooltip = ({ active, payload, label }) => {
 };
 
 const ChangeDay = (label) => {
+    if (label == 'Sun') {
+        return 'Sunday';
+    }
     if (label == 'Mon') {
         return "Monday";
     }
@@ -35,9 +39,6 @@ const ChangeDay = (label) => {
     }
     if (label == 'Sat') {
         return 'Saturday';
-    }
-    if (label == 'Sun') {
-        return 'Sunday';
     }
 return '';
 };
@@ -70,16 +71,47 @@ class CustomizedAxisTick extends PureComponent {
 export default function CustomerActivity() {
     const [focusBar, setFocusBar] = useState(null);
     const [mouseLeave, setMouseLeave] = useState(true);
+    const [weeklyData, setWeeklyData] = useState([]);
 
-    const activity = [
-        {day : "Mon", shopee: 3000, tokopedia: 2500},
-        {day : "Tue", shopee: 1755, tokopedia: 1500},
-        {day : "Wed", shopee: 1700, tokopedia: 4800},
-        {day : "Thu", shopee: 3420, tokopedia: 2100},
-        {day : "Fri", shopee: 4803, tokopedia: 1400},
-        {day : "Sat", shopee: 1732, tokopedia: 1500},
-        {day : "Sun", shopee: 1023, tokopedia: 3026},
-    ]
+    const fetchWeeklyData = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/analytics/product-weekly');
+        
+          // Create a dictionary to map dayNumber to data
+          const dataMap = {};
+          response.data.forEach((item) => {
+            dataMap[item.dayNumber] = {
+              dayNumber: item.dayNumber,
+              totalShopeeClicks: item.totalShopeeClicks,
+              totalTokopediaClicks: item.totalTokopediaClicks,
+            };
+          });
+      
+          // Create an array of data for all days (Sunday to Saturday), setting missing days to 0
+          const formattedData = [
+            { dayNumber: 1, dayLabel: 'Sun' },
+            { dayNumber: 2, dayLabel: 'Mon' },
+            { dayNumber: 3, dayLabel: 'Tue' },
+            { dayNumber: 4, dayLabel: 'Wed' },
+            { dayNumber: 5, dayLabel: 'Thu' },
+            { dayNumber: 6, dayLabel: 'Fri' },
+            { dayNumber: 7, dayLabel: 'Sat' },
+          ].map((dayInfo) => ({
+            ...dayInfo,
+            totalShopeeClicks: dataMap[dayInfo.dayNumber]?.totalShopeeClicks || 0,
+            totalTokopediaClicks: dataMap[dayInfo.dayNumber]?.totalTokopediaClicks || 0,
+          }));
+        
+          return formattedData;
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          return [];
+        }
+    };
+      
+    useEffect(() => {
+        fetchWeeklyData().then((data) => setWeeklyData(data));
+      }, []);
 
     return(
         <>  
@@ -90,7 +122,7 @@ export default function CustomerActivity() {
                 </section>
                 <main>
                     <ResponsiveContainer height="75%" width="100%" className={`absolute font-lato font-bold text-sm`}>
-                        <BarChart data={activity} barCategoryGap="10%" barGap="100%" barSize={20} margin={{right: 25, top: 20}}
+                        <BarChart data={weeklyData} barCategoryGap="10%" barGap="100%" barSize={20} margin={{right: 25, top: 20}}
                             onMouseMove={(state) => {
                                 if (state.isTooltipActive) {
                                     setFocusBar(state.activeTooltipIndex);
@@ -102,25 +134,23 @@ export default function CustomerActivity() {
                             }}
                         >
                             <CartesianGrid strokeDasharray='5 5'/>
-                            <XAxis dataKey="day" interval={0}  axisType='category' tick={<CustomizedAxisTick/>} />
+                            <XAxis dataKey="dayLabel" interval={0}  axisType='category' tick={<CustomizedAxisTick/>} />
                             <YAxis/>
-                            <Tooltip content={BarTooltip} cursor={false} label="day"/>
-                            <Bar dataKey="shopee" stackId="a"  radius={0} background={{ fill: '#fff', fillOpacity: "30%", radius: [10, 10, 0, 0]}}>
-                                {activity.map((entry, index) => (
-                                    <Cell stack fill={focusBar === index || mouseLeave ? "#FF5757" : "rgba(255, 255, 255, 0.5)"}/>
+                            <Tooltip content={BarTooltip} cursor={false} label="dayLabel"/>
+                            <Bar dataKey="totalShopeeClicks" stackId="a" radius={0} background={{ fill: '#fff', fillOpacity: "30%", radius: [10, 10, 0, 0] }}>
+                                {weeklyData.map((entry, index) => (
+                                <Cell stack fill={focusBar === index || mouseLeave ? "#FF5757" : "rgba(255, 255, 255, 0.5)"} />
                                 ))}
                             </Bar>
-                            <Bar dataKey="tokopedia" stackId="a" radius={[5, 5, 0, 0]}>
-                                {activity.map((entry, index) => (
-                                    <Cell stack fill={focusBar === index || mouseLeave ? "#00FF88" : "rgba(255, 255, 255, 0.5)"}/>
+                            <Bar dataKey="totalTokopediaClicks" stackId="a" radius={[5, 5, 0, 0]}>
+                                {weeklyData.map((entry, index) => (
+                                <Cell stack fill={focusBar === index || mouseLeave ? "#00FF88" : "rgba(255, 255, 255, 0.5)"} />
                                 ))}
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
                 </main>
-                
             </body>
-            
         </>
     )
 }

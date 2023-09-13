@@ -5,17 +5,24 @@ import { Tooltip } from "@material-tailwind/react"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import { useState, useEffect } from "react";
 import { BsTrash } from "react-icons/bs";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import AddProduct from "../dashboard/AddProducts";
-import EditProducts from "../dashboard/EditProducts";
+import EditProduct from "../dashboard/EditProducts";
 import axios from "axios";
 import SideBar from "../sidebar";
 
 const head_table = ["Name", "Image", "Description", "Category", "Price", "Stock", "Shopee Link", "Tokopedia Link", "Action"]
 
 export default function ProductTable() {
-    const [open, setOpenState] = useState(false);
+    const [setOpen, setOpenState] = useState(false);
     const [products, setProducts] = useState([]);
-    const [idEdit, setIdEdit] = useState();
+    const [productIdToEdit, setProductIdToEdit] = useState(null); 
+    const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+    const [productToDelete, setProductToDelete] = useState(null);
 
     async function fetchProducts() {
         try {
@@ -43,22 +50,33 @@ export default function ProductTable() {
     }
 
     const handleDelete = async (productId) => {
-        try {
-            await axios.delete(`http://localhost:5000/products/${productId}`);
-            fetchProducts();
-        } catch (error) {
-            console.error('Error deleting product:', error);
+        setProductToDelete(productId);
+        setDeleteConfirmationOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (productToDelete) {
+            try {
+                await axios.delete(`http://localhost:5000/api/products/?productId=${productToDelete}`);
+                fetchProducts();
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
         }
+        setDeleteConfirmationOpen(false);
+        setProductToDelete(null);
+    };
+
+    const cancelDelete = () => {
+        setDeleteConfirmationOpen(false);
+        setProductToDelete(null);
     };
 
     const handleOpenEdit = async (productId) => {
-        setOpenState(!open)
-        setIdEdit(productId);
+        setOpenState(!setOpen);
+        setProductIdToEdit(productId);
+        console.log('edit product')
     }
-
-    const handleItemClick = (item) => {
-        setContent(item);
-    };
 
     useEffect(() => {
         fetchProducts();
@@ -71,8 +89,7 @@ export default function ProductTable() {
         <>
             <div className="flex gap-5">
                 {/* <SideBar /> */}
-                {open == true ? <div className="absolute flex h-auto w-auto z-10"><AddProduct /></div> : null}
-                {open == true ? <div className="absolute flex h-auto w-auto z-10"><EditProducts productId={idEdit} /></div> : null}
+                {setOpen == true ? <div className="absolute flex h-auto w-auto z-10"><EditProduct productId={productIdToEdit} /></div> : null}
                 <div className="my-5">
 
                     <TableContainer component={Paper}>
@@ -115,10 +132,10 @@ export default function ProductTable() {
                                             <div className="flex flex-col gap-1">
                                                 <div className="flex flex-row">
                                                     <Tooltip content="Edit Product" className="bg-green-600 text-white drop-shadow-DashboardShadow">
-                                                    <Button className='pl-2 pr-2 pt-1 pb-1' onClick={() => setOpenState(!setOpen)} color='green'>Edit</Button>
+                                                    <Button className='pl-2 pr-2 pt-1 pb-1' color='green' onClick={() => handleOpenEdit(uuid)}>Edit</Button>
                                                     </Tooltip>
                                                     <Tooltip content="Delete Product" className="bg-red-600 text-white drop-shadow-DashboardShadow">
-                                                    <IconButton className='h-6 w-6 ml-1 bg-red-500'><BsTrash/></IconButton>
+                                                    <IconButton className='h-6 w-6 ml-1 bg-red-500' onClick={() => handleDelete(uuid)}><BsTrash/></IconButton>
                                                     </Tooltip>
                                                 </div>
                                                 <div>
@@ -141,6 +158,28 @@ export default function ProductTable() {
                     </TableContainer>
                 </div>
             </div>
+            {/* Delete Confirmation Dialog */}
+            <Dialog
+                open={deleteConfirmationOpen}
+                onClose={cancelDelete}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete this product?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={cancelDelete} color="primary">
+                        No
+                    </Button>
+                    <Button onClick={confirmDelete} color="primary" autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }
